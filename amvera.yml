@@ -1,16 +1,9 @@
----
 meta:
-  environment: node
+  environment: docker
   toolchain:
-    name: npm
-    version: 22.6
+    name: docker
 build:
-  artifacts:
-    '*': /
-  additionalCommands: sudo apt-get install build-essential libcairo2-dev libpango1.0-dev
-    libjpeg-dev libgif-dev librsvg2-dev
+  dockerfile: Dockerfile
 run:
-  scriptName: index.js
-  command: npm run start
   persistenceMount: /data
-  containerPort: 3000
+  containerPort: 80
