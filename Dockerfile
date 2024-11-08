@@ -1,27 +1,23 @@
 # Указываем базовый образ Node.js 20.6 на базе Alpine
-FROM node:20.6-alpine
+FROM node:22.6
 
 # Устанавливаем рабочую директорию в контейнере
 WORKDIR /app
 
 # Устанавливаем необходимые пакеты для сборки
-RUN apk update && \
-    apk add --no-cache \
-    build-base \
-    cairo-dev \
-    pango-dev \
-    jpeg-dev \
-    giflib-dev \
-    librsvg
+RUN apt-get update && \
+    apt-get install -y sudo build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev && \
+    rm -rf /var/lib/apt/lists/*
 
 # Копируем package.json и package-lock.json (если есть) в контейнер
 COPY package*.json ./
 
+# Копируем остальные файлы проекта
+COPY index.js ./
+
 # Устанавливаем зависимости проекта
 RUN npm install
 
-# Копируем остальные файлы проекта
-COPY . .
 
 # Указываем команду для запуска приложения
 CMD ["npm", "start"]
