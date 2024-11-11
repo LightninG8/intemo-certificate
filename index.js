@@ -1,5 +1,5 @@
 const express = require("express");
-const { createCanvas, loadImage } = require("canvas");
+const { createCanvas, loadImage, registerFont } = require("canvas");
 
 const app = express();
 const port = 80;
@@ -8,18 +8,25 @@ app.get("/certificate", async (req, res) => {
   try {
     const { name, result } = req.query;
 
-    const canvas = createCanvas(500, 400);
+    const canvas = createCanvas(2000, 1125);
     const ctx = canvas.getContext("2d");
+
+    registerFont("font.ttf", { family: "Montserrat", weight: "bold" });
+    // Основа сертификата
+    await loadImage("cert.jpg").then((image) => {
+      ctx.drawImage(image, 0, 0);
+    });
 
     // Write "Awesome!"
     ctx.save();
-    ctx.fillStyle = "#ffffff";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     ctx.restore();
-    ctx.font = "30px Impact";
-    ctx.fillText(name, 50, 100);
-    ctx.fillText(result, 50, 150);
+    ctx.fillStyle = "#3D3D3D";
+    ctx.font = "bold 42px Montserrat";
+    ctx.fillText(name.toUpperCase(), 175, 645);
+
+    const formattedResult = `${Math.round(result.split("/")[0] / result.split("/")[1] * 100)}% из 100%`
+    ctx.fillText(formattedResult, 1470, 695);
 
     // Automatically detects image type and does the conversion
     const buffer = canvas.toBuffer();
