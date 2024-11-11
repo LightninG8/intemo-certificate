@@ -14,6 +14,8 @@ COPY package*.json ./
 
 # Копируем остальные файлы проекта
 COPY index.js ./
+COPY font.ttf ./
+COPY cert.jpg ./
 
 # Устанавливаем зависимости проекта
 RUN npm install

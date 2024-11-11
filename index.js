@@ -11,7 +11,7 @@ app.get("/certificate", async (req, res) => {
     const canvas = createCanvas(2000, 1125);
     const ctx = canvas.getContext("2d");
 
-    registerFont("./font.ttf", { family: "Montserrat", weight: "bold" });
+    registerFont("font.ttf", { family: "Montserrat", weight: "bold" });
     // Основа сертификата
     await loadImage("cert.jpg").then((image) => {
       ctx.drawImage(image, 0, 0);
